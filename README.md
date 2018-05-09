@@ -109,11 +109,19 @@ While Windows isn't officially supported, helpful users have posted instructions
 
 ## Usage
 
-#### Command-Line Interface
+### Command-Line Interface
 
-When you install `face_recognition`, you get a simple command-line program
-called `face_recognition` that you can use to recognize faces in a
-photograph or folder full for photographs.
+When you install `face_recognition`, you get a two simple command-line 
+programs:
+
+* `face_recognition` - Recognize faces in a photograph or folder full for 
+   photographs.
+* `face_detection` - Find faces in a photograph or folder full for photographs.
+
+#### `face_recognition` command line tool
+
+The `face_recognition` command lets you recognize faces in a photograph or 
+folder full  for photographs.
 
 First, you need to provide a folder with one picture of each person you
 already know. There should be one image file for each person with the
@@ -142,6 +150,25 @@ with the filename and the name of the person found.
 An `unknown_person` is a face in the image that didn't match anyone in
 your folder of known people.
 
+#### `face_detection` command line tool
+
+The `face_detection` command lets you find the location (pixel coordinatates) 
+of any faces in an image.
+
+Just run the command `face_detection`, passing in a folder of images 
+to check (or a single image):
+
+```bash
+$ face_detection  ./folder_with_pictures/
+
+examples/image1.jpg,65,215,169,112
+examples/image2.jpg,62,394,211,244
+examples/image2.jpg,95,941,244,792
+```
+
+It prints one line for each face that was detected. The coordinates
+reported are the top, right, bottom and left coordinates of the face (in pixels).
+ 
 ##### Adjusting Tolerance / Sensitivity
 
 If you are getting multiple matches for the same person, it might be that
@@ -316,6 +343,7 @@ depending on a black box library, [read my article](https://medium.com/@ageitgey
 
 * The face recognition model is trained on adults and does not work very well on children. It tends to mix
   up children quite easy using the default comparison threshold of 0.6.
+* Accuracy may vary between ethnic groups. Please see [this wiki page](https://github.com/ageitgey/face_recognition/wiki/Face-Recognition-Accuracy-Problems#question-face-recognition-works-well-with-european-individuals-but-overall-accuracy-is-lower-with-asian-individuals) for more details.
 
 ## Deployment to Cloud Hosts (Heroku, AWS, etc)
 
@@ -326,33 +354,9 @@ To make things easier, there's an example Dockerfile in this repo that shows how
 `face_recognition` in a [Docker](https://www.docker.com/) container. With that, you should be able to deploy
 to any service that supports Docker images.
 
-## Common Issues
+## Having problems?
 
-Issue: `Illegal instruction (core dumped)` when using face_recognition or running examples.
-
-Solution: `dlib` is compiled with SSE4 or AVX support, but your CPU is too old and doesn't support that.
-You'll need to recompile `dlib` after [making the code change outlined here](https://github.com/ageitgey/face_recognition/issues/11#issuecomment-287398611).
-
-Issue: `RuntimeError: Unsupported image type, must be 8bit gray or RGB image.` when running the webcam examples.
-
-Solution: Your webcam probably isn't set up correctly with OpenCV. [Look here for more](https://github.com/ageitgey/face_recognition/issues/21#issuecomment-287779524).
-
-Issue: `MemoryError` when running `pip2 install face_recognition`
-
-Solution: The face_recognition_models file is too big for your available pip cache memory. Instead,
-try `pip2 --no-cache-dir install face_recognition` to avoid the issue.
-
-Issue: `AttributeError: 'module' object has no attribute 'face_recognition_model_v1'`
-
-Solution: The version of `dlib` you have installed is too old. You need version 19.7 or newer. Upgrade `dlib`.
-
-Issue: `Attribute Error: 'Module' object has no attribute 'cnn_face_detection_model_v1'`
-
-Solution: The version of `dlib` you have installed is too old. You need version 19.7 or newer. Upgrade `dlib`.
-
-Issue: `TypeError: imread() got an unexpected keyword argument 'mode'`
-
-Solution: The version of `scipy` you have installed is too old. You need version 0.17 or newer. Upgrade `scipy`.
+If you run into problems, please read the [Common Errors](https://github.com/ageitgey/face_recognition/wiki/Common-Errors) section of the wiki before filing a github issue.
 
 ## Thanks
 
